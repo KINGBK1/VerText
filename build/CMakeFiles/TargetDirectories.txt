@@ -1,4 +1,5 @@
 /home/cazz/versioned-vfs/build/CMakeFiles/vfs_mount.dir
+/home/cazz/versioned-vfs/build/CMakeFiles/vfs_tui.dir
 /home/cazz/versioned-vfs/build/CMakeFiles/edit_cache.dir
 /home/cazz/versioned-vfs/build/CMakeFiles/rebuild_cache.dir
 /home/cazz/versioned-vfs/build/CMakeFiles/list_install_components.dir

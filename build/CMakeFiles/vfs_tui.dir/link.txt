@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/vfs_tui.dir/src/tui/tui_main.cpp.o CMakeFiles/vfs_tui.dir/src/tui/tui_manager.cpp.o CMakeFiles/vfs_tui.dir/src/common/paths.cpp.o CMakeFiles/vfs_tui.dir/src/fuse/version_manager.cpp.o -o vfs_tui  -lcurses /usr/lib/x86_64-linux-gnu/libform.so

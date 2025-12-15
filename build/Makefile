@@ -174,12 +174,26 @@ vfs_mount/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/build
 .PHONY : vfs_mount/fast
 
+#=============================================================================
+# Target rules for targets named vfs_tui
+
+# Build rule for target.
+vfs_tui: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 vfs_tui
+.PHONY : vfs_tui
+
+# fast build rule for target.
+vfs_tui/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/build
+.PHONY : vfs_tui/fast
+
 src/common/paths.o: src/common/paths.cpp.o
 .PHONY : src/common/paths.o
 
 # target to build an object file
 src/common/paths.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/src/common/paths.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/src/common/paths.cpp.o
 .PHONY : src/common/paths.cpp.o
 
 src/common/paths.i: src/common/paths.cpp.i
@@ -188,6 +202,7 @@ src/common/paths.i: src/common/paths.cpp.i
 # target to preprocess a source file
 src/common/paths.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/src/common/paths.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/src/common/paths.cpp.i
 .PHONY : src/common/paths.cpp.i
 
 src/common/paths.s: src/common/paths.cpp.s
@@ -196,6 +211,7 @@ src/common/paths.s: src/common/paths.cpp.s
 # target to generate assembly for a file
 src/common/paths.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/src/common/paths.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/src/common/paths.cpp.s
 .PHONY : src/common/paths.cpp.s
 
 src/fuse/version_manager.o: src/fuse/version_manager.cpp.o
@@ -204,6 +220,7 @@ src/fuse/version_manager.o: src/fuse/version_manager.cpp.o
 # target to build an object file
 src/fuse/version_manager.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/src/fuse/version_manager.cpp.o
 .PHONY : src/fuse/version_manager.cpp.o
 
 src/fuse/version_manager.i: src/fuse/version_manager.cpp.i
@@ -212,6 +229,7 @@ src/fuse/version_manager.i: src/fuse/version_manager.cpp.i
 # target to preprocess a source file
 src/fuse/version_manager.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/src/fuse/version_manager.cpp.i
 .PHONY : src/fuse/version_manager.cpp.i
 
 src/fuse/version_manager.s: src/fuse/version_manager.cpp.s
@@ -220,6 +238,7 @@ src/fuse/version_manager.s: src/fuse/version_manager.cpp.s
 # target to generate assembly for a file
 src/fuse/version_manager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/src/fuse/version_manager.cpp.s
 .PHONY : src/fuse/version_manager.cpp.s
 
 src/fuse/vfs_main.o: src/fuse/vfs_main.cpp.o
@@ -270,6 +289,54 @@ src/fuse/vfs_ops.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.s
 .PHONY : src/fuse/vfs_ops.cpp.s
 
+src/tui/tui_main.o: src/tui/tui_main.cpp.o
+.PHONY : src/tui/tui_main.o
+
+# target to build an object file
+src/tui/tui_main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/src/tui/tui_main.cpp.o
+.PHONY : src/tui/tui_main.cpp.o
+
+src/tui/tui_main.i: src/tui/tui_main.cpp.i
+.PHONY : src/tui/tui_main.i
+
+# target to preprocess a source file
+src/tui/tui_main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/src/tui/tui_main.cpp.i
+.PHONY : src/tui/tui_main.cpp.i
+
+src/tui/tui_main.s: src/tui/tui_main.cpp.s
+.PHONY : src/tui/tui_main.s
+
+# target to generate assembly for a file
+src/tui/tui_main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/src/tui/tui_main.cpp.s
+.PHONY : src/tui/tui_main.cpp.s
+
+src/tui/tui_manager.o: src/tui/tui_manager.cpp.o
+.PHONY : src/tui/tui_manager.o
+
+# target to build an object file
+src/tui/tui_manager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/src/tui/tui_manager.cpp.o
+.PHONY : src/tui/tui_manager.cpp.o
+
+src/tui/tui_manager.i: src/tui/tui_manager.cpp.i
+.PHONY : src/tui/tui_manager.i
+
+# target to preprocess a source file
+src/tui/tui_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/src/tui/tui_manager.cpp.i
+.PHONY : src/tui/tui_manager.cpp.i
+
+src/tui/tui_manager.s: src/tui/tui_manager.cpp.s
+.PHONY : src/tui/tui_manager.s
+
+# target to generate assembly for a file
+src/tui/tui_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/src/tui/tui_manager.cpp.s
+.PHONY : src/tui/tui_manager.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -283,6 +350,7 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... vfs_mount"
+	@echo "... vfs_tui"
 	@echo "... src/common/paths.o"
 	@echo "... src/common/paths.i"
 	@echo "... src/common/paths.s"
@@ -295,6 +363,12 @@ help:
 	@echo "... src/fuse/vfs_ops.o"
 	@echo "... src/fuse/vfs_ops.i"
 	@echo "... src/fuse/vfs_ops.s"
+	@echo "... src/tui/tui_main.o"
+	@echo "... src/tui/tui_main.i"
+	@echo "... src/tui/tui_main.s"
+	@echo "... src/tui/tui_manager.o"
+	@echo "... src/tui/tui_manager.i"
+	@echo "... src/tui/tui_manager.s"
 .PHONY : help
 
 

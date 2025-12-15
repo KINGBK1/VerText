@@ -24,20 +24,33 @@ link_directories(
     ${FUSE3_LIBRARY_DIRS}
 )
 
-# Recursively collect all .cpp files inside src/
-file(GLOB_RECURSE SOURCES
-    src/*.cpp
+# Source files for VFS mount
+set(VFS_SOURCES
+    src/common/paths.cpp
+    src/fuse/vfs_main.cpp
+    src/fuse/vfs_ops.cpp
+    src/fuse/version_manager.cpp
 )
 
-# Create the executable
-add_executable(vfs_mount ${SOURCES})
+# Source files for TUI
+set(TUI_SOURCES
+    src/tui/tui_main.cpp
+    src/tui/tui_manager.cpp
+    src/common/paths.cpp
+    src/fuse/version_manager.cpp
+)
 
-# Link libraries
+# Create the VFS mount executable
+add_executable(vfs_mount ${VFS_SOURCES})
 target_link_libraries(vfs_mount
     ${FUSE3_LIBRARIES}
+)
+
+# Create the TUI executable
+add_executable(vfs_tui ${TUI_SOURCES})
+target_link_libraries(vfs_tui
     ${CURSES_LIBRARIES}
-    stdc++fs  # For filesystem operations (if needed)
 )
 
 # Install rule (optional)
-install(TARGETS vfs_mount DESTINATION bin)
+install(TARGETS vfs_mount vfs_tui DESTINATION bin)

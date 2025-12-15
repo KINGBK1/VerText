@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = /home/cazz/versioned-vfs/build
 
 # The main recursive "all" target.
 all: CMakeFiles/vfs_mount.dir/all
+all: CMakeFiles/vfs_tui.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -72,6 +73,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/vfs_mount.dir/clean
+clean: CMakeFiles/vfs_tui.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -99,6 +101,32 @@ vfs_mount: CMakeFiles/vfs_mount.dir/rule
 CMakeFiles/vfs_mount.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/clean
 .PHONY : CMakeFiles/vfs_mount.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/vfs_tui.dir
+
+# All Build rule for target.
+CMakeFiles/vfs_tui.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/cazz/versioned-vfs/build/CMakeFiles --progress-num=6,7,8,9,10 "Built target vfs_tui"
+.PHONY : CMakeFiles/vfs_tui.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/vfs_tui.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cazz/versioned-vfs/build/CMakeFiles 5
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/vfs_tui.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cazz/versioned-vfs/build/CMakeFiles 0
+.PHONY : CMakeFiles/vfs_tui.dir/rule
+
+# Convenience name for target.
+vfs_tui: CMakeFiles/vfs_tui.dir/rule
+.PHONY : vfs_tui
+
+# clean rule for target.
+CMakeFiles/vfs_tui.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_tui.dir/build.make CMakeFiles/vfs_tui.dir/clean
+.PHONY : CMakeFiles/vfs_tui.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

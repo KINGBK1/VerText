@@ -83,24 +83,10 @@ CMakeFiles/vfs_mount.dir/src/common/paths.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/vfs_mount.dir/src/common/paths.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cazz/versioned-vfs/src/common/paths.cpp -o CMakeFiles/vfs_mount.dir/src/common/paths.cpp.s
 
-CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o: CMakeFiles/vfs_mount.dir/flags.make
-CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o: /home/cazz/versioned-vfs/src/fuse/version_manager.cpp
-CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o: CMakeFiles/vfs_mount.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/cazz/versioned-vfs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o -MF CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o.d -o CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o -c /home/cazz/versioned-vfs/src/fuse/version_manager.cpp
-
-CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cazz/versioned-vfs/src/fuse/version_manager.cpp > CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.i
-
-CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cazz/versioned-vfs/src/fuse/version_manager.cpp -o CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.s
-
 CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o: CMakeFiles/vfs_mount.dir/flags.make
 CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o: /home/cazz/versioned-vfs/src/fuse/vfs_main.cpp
 CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o: CMakeFiles/vfs_mount.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/cazz/versioned-vfs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/cazz/versioned-vfs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o -MF CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o.d -o CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o -c /home/cazz/versioned-vfs/src/fuse/vfs_main.cpp
 
 CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.i: cmake_force
@@ -114,7 +100,7 @@ CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.s: cmake_force
 CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o: CMakeFiles/vfs_mount.dir/flags.make
 CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o: /home/cazz/versioned-vfs/src/fuse/vfs_ops.cpp
 CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o: CMakeFiles/vfs_mount.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/cazz/versioned-vfs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/cazz/versioned-vfs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o -MF CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o.d -o CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o -c /home/cazz/versioned-vfs/src/fuse/vfs_ops.cpp
 
 CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.i: cmake_force
@@ -125,23 +111,35 @@ CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cazz/versioned-vfs/src/fuse/vfs_ops.cpp -o CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.s
 
+CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o: CMakeFiles/vfs_mount.dir/flags.make
+CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o: /home/cazz/versioned-vfs/src/fuse/version_manager.cpp
+CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o: CMakeFiles/vfs_mount.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/cazz/versioned-vfs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o -MF CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o.d -o CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o -c /home/cazz/versioned-vfs/src/fuse/version_manager.cpp
+
+CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cazz/versioned-vfs/src/fuse/version_manager.cpp > CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.i
+
+CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cazz/versioned-vfs/src/fuse/version_manager.cpp -o CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.s
+
 # Object files for target vfs_mount
 vfs_mount_OBJECTS = \
 "CMakeFiles/vfs_mount.dir/src/common/paths.cpp.o" \
-"CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o" \
 "CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o" \
-"CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o"
+"CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o" \
+"CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o"
 
 # External object files for target vfs_mount
 vfs_mount_EXTERNAL_OBJECTS =
 
 vfs_mount: CMakeFiles/vfs_mount.dir/src/common/paths.cpp.o
-vfs_mount: CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o
 vfs_mount: CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o
 vfs_mount: CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o
+vfs_mount: CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o
 vfs_mount: CMakeFiles/vfs_mount.dir/build.make
-vfs_mount: /usr/lib/x86_64-linux-gnu/libcurses.so
-vfs_mount: /usr/lib/x86_64-linux-gnu/libform.so
 vfs_mount: CMakeFiles/vfs_mount.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/cazz/versioned-vfs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable vfs_mount"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/vfs_mount.dir/link.txt --verbose=$(VERBOSE)
