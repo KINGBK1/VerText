@@ -17,7 +17,6 @@
 
 using namespace std;
 
-// Track open files and whether they've been modified
 struct OpenFileInfo {
     bool has_been_written;
     bool version_created;
