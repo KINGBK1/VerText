@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/cazz/versioned-vfs/src/common/paths.cpp" "CMakeFiles/vfs_mount.dir/src/common/paths.cpp.o" "gcc" "CMakeFiles/vfs_mount.dir/src/common/paths.cpp.o.d"
+  "/home/cazz/versioned-vfs/src/fuse/version_manager.cpp" "CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o" "gcc" "CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o.d"
   "/home/cazz/versioned-vfs/src/fuse/vfs_main.cpp" "CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o" "gcc" "CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o.d"
   "/home/cazz/versioned-vfs/src/fuse/vfs_ops.cpp" "CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o" "gcc" "CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o.d"
   )

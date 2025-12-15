@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.10)
 project(versioned_vfs)
 
 set(CMAKE_CXX_STANDARD 20)
-
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Enable useful warnings
@@ -37,6 +36,7 @@ add_executable(vfs_mount ${SOURCES})
 target_link_libraries(vfs_mount
     ${FUSE3_LIBRARIES}
     ${CURSES_LIBRARIES}
+    stdc++fs  # For filesystem operations (if needed)
 )
 
 # Install rule (optional)

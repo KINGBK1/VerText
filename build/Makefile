@@ -198,6 +198,30 @@ src/common/paths.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/src/common/paths.cpp.s
 .PHONY : src/common/paths.cpp.s
 
+src/fuse/version_manager.o: src/fuse/version_manager.cpp.o
+.PHONY : src/fuse/version_manager.o
+
+# target to build an object file
+src/fuse/version_manager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o
+.PHONY : src/fuse/version_manager.cpp.o
+
+src/fuse/version_manager.i: src/fuse/version_manager.cpp.i
+.PHONY : src/fuse/version_manager.i
+
+# target to preprocess a source file
+src/fuse/version_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.i
+.PHONY : src/fuse/version_manager.cpp.i
+
+src/fuse/version_manager.s: src/fuse/version_manager.cpp.s
+.PHONY : src/fuse/version_manager.s
+
+# target to generate assembly for a file
+src/fuse/version_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vfs_mount.dir/build.make CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.s
+.PHONY : src/fuse/version_manager.cpp.s
+
 src/fuse/vfs_main.o: src/fuse/vfs_main.cpp.o
 .PHONY : src/fuse/vfs_main.o
 
@@ -262,6 +286,9 @@ help:
 	@echo "... src/common/paths.o"
 	@echo "... src/common/paths.i"
 	@echo "... src/common/paths.s"
+	@echo "... src/fuse/version_manager.o"
+	@echo "... src/fuse/version_manager.i"
+	@echo "... src/fuse/version_manager.s"
 	@echo "... src/fuse/vfs_main.o"
 	@echo "... src/fuse/vfs_main.i"
 	@echo "... src/fuse/vfs_main.s"

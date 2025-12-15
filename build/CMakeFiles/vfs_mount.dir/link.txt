@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/vfs_mount.dir/src/common/paths.cpp.o CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o -o vfs_mount  -lfuse3 -lpthread -lcurses /usr/lib/x86_64-linux-gnu/libform.so
+/usr/bin/c++ CMakeFiles/vfs_mount.dir/src/common/paths.cpp.o CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o -o vfs_mount  -lfuse3 -lpthread -lcurses /usr/lib/x86_64-linux-gnu/libform.so -lstdc++fs

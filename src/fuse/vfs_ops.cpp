@@ -1,6 +1,7 @@
 #define FUSE_USE_VERSION 30
 
 #include "vfs_ops.h"
+#include "version_manager.h"
 #include "../common/paths.h"
 
 #include <iostream>
@@ -27,12 +28,35 @@ void setup_operations() {
     vfs_ops.mkdir   = vfs_mkdir;
     vfs_ops.rmdir   = vfs_rmdir;
     vfs_ops.rename  = vfs_rename;
+    vfs_ops.truncate = vfs_truncate;
 }
 
 void* vfs_init(struct fuse_conn_info *conn, struct fuse_config *cfg) {
     (void) conn;
     (void) cfg;
-    std::cout << "[VFS] initialized (persistent backend mode)" << std::endl;
+    
+    std::cerr << "[VFS] Init function called!" << std::endl;
+    
+    // Initialize version manager
+    char *env_root = getenv("VFS_BACKEND_ROOT");
+    std::string backend_root = env_root ? std::string(env_root) : "./runtime/data";
+    
+    // Remove /data from end to get project root
+    size_t pos = backend_root.rfind("/data");
+    std::string project_root = (pos != std::string::npos) 
+        ? backend_root.substr(0, pos) 
+        : backend_root + "/..";
+    
+    std::string versions_dir = project_root + "/versions";
+    std::string meta_dir = project_root + "/meta";
+    
+    VersionManager::init(versions_dir, meta_dir);
+    
+    std::cerr << "[VFS] Initialized with automatic versioning" << std::endl;
+    std::cerr << "[VFS] Backend: " << backend_root << std::endl;
+    std::cerr << "[VFS] Versions: " << versions_dir << std::endl;
+    std::cerr << "[VFS] Metadata: " << meta_dir << std::endl;
+    
     return nullptr;
 }
 
@@ -107,12 +131,44 @@ int vfs_read(const char *path, char *buf, size_t size, off_t offset, struct fuse
 int vfs_write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
     (void) fi;
     std::string real = vfs_backend_path(path);
+    
+    std::cerr << "[VFS] Write called for: " << path << std::endl;
+    
+    // Check if file exists and has content
+    struct stat st;
+    bool file_exists = (stat(real.c_str(), &st) == 0);
+    bool has_content = (file_exists && st.st_size > 0);
+    
+    std::cerr << "[VFS] File exists: " << file_exists << ", has content: " << has_content << std::endl;
+    
+    // Create version BEFORE writing if file exists and has content
+    if (has_content) {
+        std::cerr << "[VFS] Creating version..." << std::endl;
+        bool success = VersionManager::create_version(real);
+        std::cerr << "[VFS] Version creation " << (success ? "succeeded" : "failed") << std::endl;
+    }
+    
     int fd = open(real.c_str(), O_WRONLY);
     if (fd == -1) return -errno;
     ssize_t res = pwrite(fd, buf, size, offset);
     if (res == -1) res = -errno;
     close(fd);
+    
     return res;
+}
+
+int vfs_truncate(const char *path, off_t size, struct fuse_file_info *fi) {
+    (void) fi;
+    std::string real = vfs_backend_path(path);
+    
+    // Create version before truncating (if file exists and has content)
+    struct stat st;
+    if (stat(real.c_str(), &st) == 0 && st.st_size > 0) {
+        VersionManager::create_version(real);
+    }
+    
+    if (truncate(real.c_str(), size) == -1) return -errno;
+    return 0;
 }
 
 int vfs_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
@@ -124,11 +180,21 @@ int vfs_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
     int fd = open(real.c_str(), O_CREAT | O_EXCL | O_WRONLY, mode);
     if (fd == -1) return -errno;
     close(fd);
+    
+    std::cout << "[VFS] Created file: " << path << std::endl;
     return 0;
 }
 
 int vfs_unlink(const char *path) {
     std::string real = vfs_backend_path(path);
+    
+    // Create final version before deletion
+    struct stat st;
+    if (stat(real.c_str(), &st) == 0 && st.st_size > 0) {
+        VersionManager::create_version(real);
+        std::cout << "[VFS] Created final version before deletion: " << path << std::endl;
+    }
+    
     if (unlink(real.c_str()) == -1) return -errno;
     return 0;
 }
@@ -149,6 +215,13 @@ int vfs_rename(const char *from, const char *to, unsigned int flags) {
     (void) flags;
     std::string real_from = vfs_backend_path(from);
     std::string real_to = vfs_backend_path(to);
+    
+    // Create version of the source file before rename
+    struct stat st;
+    if (stat(real_from.c_str(), &st) == 0 && st.st_size > 0) {
+        VersionManager::create_version(real_from);
+    }
+    
     if (rename(real_from.c_str(), real_to.c_str()) == -1) return -errno;
     return 0;
 }

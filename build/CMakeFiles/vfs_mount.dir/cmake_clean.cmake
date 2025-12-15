@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/vfs_mount.dir/src/common/paths.cpp.o"
   "CMakeFiles/vfs_mount.dir/src/common/paths.cpp.o.d"
+  "CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o"
+  "CMakeFiles/vfs_mount.dir/src/fuse/version_manager.cpp.o.d"
   "CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o"
   "CMakeFiles/vfs_mount.dir/src/fuse/vfs_main.cpp.o.d"
   "CMakeFiles/vfs_mount.dir/src/fuse/vfs_ops.cpp.o"
