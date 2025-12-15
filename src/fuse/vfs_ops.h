@@ -6,6 +6,8 @@
 #include <sys/stat.h>
 #include <string>
 
+using namespace std;
+
 extern struct fuse_operations vfs_ops;
 void setup_operations();
 

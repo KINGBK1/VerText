@@ -6,15 +6,16 @@
 
 using namespace std;
 
-extern struct fuse_operations vfs_ops;   // Declare ops table
-void setup_operations();                 // Declare setup function
+extern struct fuse_operations vfs_ops;
+void setup_operations();
 
 int main(int argc, char *argv[]) {
-    cout << "Starting Versioned VFS" << endl;
+    cout << "╔═══════════════════════════════════════╗" << endl;
+    cout << "║   VERSIONED VFS - Starting System...  ║" << endl;
+    cout << "╚═══════════════════════════════════════╝" << endl;
+    cout << endl;
 
-    // Register all FUSE operations
     setup_operations();
 
-    // Start FUSE with our handlers
     return fuse_main(argc, argv, &vfs_ops, nullptr);
 }

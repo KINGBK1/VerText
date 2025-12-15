@@ -4,6 +4,8 @@
 #include <vector>
 #include <ncurses.h>
 
+using namespace std;
+
 // Forward declarations
 struct FileVersion;
 
@@ -12,7 +14,6 @@ public:
     TUIManager();
     ~TUIManager();
     
-    // Main entry point
     void run();
     
 private:
@@ -25,12 +26,13 @@ private:
     WINDOW* status_win;
     
     // Data
-    std::vector<std::string> files;
-    std::vector<FileVersion> versions;
+    vector<string> files;
+    vector<FileVersion> versions;
     int selected_file_idx;
     int selected_version_idx;
-    std::string current_file;
-    std::string backend_root;
+    string current_file;
+    string backend_root;
+    string last_status_message;
     
     // UI State
     enum View { FILES_VIEW, VERSIONS_VIEW };
@@ -43,14 +45,15 @@ private:
     
     // Data loading
     void load_files();
-    void load_versions_for_file(const std::string& filename);
+    void load_versions_for_file(const string& filename);
     
     // Drawing
     void draw_header();
     void draw_files();
     void draw_versions();
     void draw_details();
-    void draw_status(const std::string& message);
+    void draw_status(const string& message);
+    void draw_help_popup();
     void refresh_all();
     
     // Input handling
@@ -61,12 +64,10 @@ private:
     // Actions
     void select_file();
     void restore_version();
-    void delete_version();
     void view_version_content();
-    void compare_versions();
     
     // Helpers
-    std::string format_timestamp(time_t timestamp);
-    std::string format_size(size_t bytes);
-    std::string get_full_path(const std::string& filename);
+    string format_timestamp(time_t timestamp);
+    string format_size(size_t bytes);
+    string get_full_path(const string& filename);
 };

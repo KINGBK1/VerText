@@ -1,9 +1,6 @@
 #define FUSE_USE_VERSION 30
 
-#include "vfs_ops.h"
-#include "version_manager.h"
-#include "../common/paths.h"
-
+#include <fuse3/fuse.h>
 #include <iostream>
 #include <cstring>
 #include <sys/stat.h>
@@ -14,8 +11,20 @@
 #include <string>
 #include <map>
 
-// Track if we've versioned a file in this write session
-static std::map<std::string, bool> write_session_versioned;
+#include "vfs_ops.h"
+#include "version_manager.h"
+#include "../common/paths.h"
+
+using namespace std;
+
+// Track open files and whether they've been modified
+struct OpenFileInfo {
+    bool has_been_written;
+    bool version_created;
+    off_t original_size;
+};
+
+static map<string, OpenFileInfo> open_files;
 
 struct fuse_operations vfs_ops = {};
 
@@ -40,34 +49,39 @@ void* vfs_init(struct fuse_conn_info *conn, struct fuse_config *cfg) {
     (void) conn;
     (void) cfg;
     
-    std::cerr << "[VFS] Initializing..." << std::endl;
+    cerr << "[VFS] ═══════════════════════════════════════" << endl;
+    cerr << "[VFS] Versioned Filesystem Initializing..." << endl;
+    cerr << "[VFS] ═══════════════════════════════════════" << endl;
     
     char *env_root = getenv("VFS_BACKEND_ROOT");
-    std::string backend_root = env_root ? std::string(env_root) : "./runtime/data";
+    string backend_root = env_root ? string(env_root) : "./runtime/data";
     
     size_t pos = backend_root.rfind("/data");
-    std::string project_root = (pos != std::string::npos) 
+    string project_root = (pos != string::npos) 
         ? backend_root.substr(0, pos) 
         : backend_root + "/..";
     
-    std::string versions_dir = project_root + "/versions";
-    std::string meta_dir = project_root + "/meta";
+    string versions_dir = project_root + "/versions";
+    string meta_dir = project_root + "/meta";
     
     VersionManager::init(versions_dir, meta_dir);
     
-    std::cerr << "[VFS] ✓ Versioning enabled" << std::endl;
-    std::cerr << "[VFS] Backend: " << backend_root << std::endl;
-    std::cerr << "[VFS] Versions: " << versions_dir << std::endl;
+    cerr << "[VFS] ✓ Versioning System: ACTIVE" << endl;
+    cerr << "[VFS] ✓ Backend Storage:   " << backend_root << endl;
+    cerr << "[VFS] ✓ Version Archive:   " << versions_dir << endl;
+    cerr << "[VFS] ✓ Metadata Storage:  " << meta_dir << endl;
+    cerr << "[VFS] ═══════════════════════════════════════" << endl;
+    cerr << "[VFS] Ready! All file changes will be versioned." << endl;
     
     return nullptr;
 }
 
 int vfs_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi) {
     (void) fi;
-    std::memset(stbuf, 0, sizeof(struct stat));
-    std::string real = vfs_backend_path(path);
+    memset(stbuf, 0, sizeof(struct stat));
+    string real = vfs_backend_path(path);
 
-    if (std::string(path) == "/") {
+    if (string(path) == "/") {
         struct stat s;
         if (stat(real.c_str(), &s) == -1) {
             mkdir(real.c_str(), 0755);
@@ -84,7 +98,7 @@ int vfs_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi)
 int vfs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
                 off_t offset, struct fuse_file_info *fi, enum fuse_readdir_flags flags) {
     (void) offset; (void) fi; (void) flags;
-    std::string real = vfs_backend_path(path);
+    string real = vfs_backend_path(path);
 
     DIR *dp = opendir(real.c_str());
     if (!dp) return -errno;
@@ -96,7 +110,7 @@ int vfs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     while ((de = readdir(dp)) != nullptr) {
         if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0) continue;
         struct stat st;
-        std::string child = real + "/" + de->d_name;
+        string child = real + "/" + de->d_name;
         if (stat(child.c_str(), &st) == -1) continue;
         filler(buf, de->d_name, &st, 0, FUSE_FILL_DIR_PLUS);
     }
@@ -105,22 +119,22 @@ int vfs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 }
 
 int vfs_open(const char *path, struct fuse_file_info *fi) {
-    std::string real = vfs_backend_path(path);
+    string real = vfs_backend_path(path);
 
     int flags = 0;
     if (fi->flags & O_RDONLY) flags = O_RDONLY;
     if (fi->flags & O_WRONLY) flags = O_WRONLY;
     if (fi->flags & O_RDWR)   flags = O_RDWR;
     if (fi->flags & O_APPEND) flags |= O_APPEND;
+    if (fi->flags & O_TRUNC)  flags |= O_TRUNC;
 
-    // If opening for write, prepare for versioning
-    if ((fi->flags & O_WRONLY) || (fi->flags & O_RDWR)) {
+    // Create version BEFORE opening if truncate flag is set
+    if ((fi->flags & O_TRUNC) && (fi->flags & (O_WRONLY | O_RDWR))) {
         struct stat st;
         if (stat(real.c_str(), &st) == 0 && st.st_size > 0) {
-            // File exists with content - create version BEFORE any writes
-            std::cerr << "[VFS] File opened for writing: " << path << std::endl;
+            cerr << "[VFS] Truncate on open detected: " << path << endl;
             VersionManager::create_version(real);
-            std::cerr << "[VFS] ✓ Version created on open" << std::endl;
+            cerr << "[VFS] ✓ Version created before truncate!" << endl;
         }
     }
 
@@ -128,11 +142,29 @@ int vfs_open(const char *path, struct fuse_file_info *fi) {
     if (fd == -1) return -errno;
     
     fi->fh = fd;
+    
+    // Track this file if opened for writing
+    if ((fi->flags & O_WRONLY) || (fi->flags & O_RDWR)) {
+        OpenFileInfo info;
+        info.has_been_written = false;
+        info.version_created = (fi->flags & O_TRUNC) ? true : false; // Already versioned if truncated
+        
+        struct stat st;
+        if (stat(real.c_str(), &st) == 0) {
+            info.original_size = st.st_size;
+        } else {
+            info.original_size = 0;
+        }
+        
+        open_files[real] = info;
+        cerr << "[VFS] Opened for writing: " << path << " (flags: " << fi->flags << ", size: " << info.original_size << ")" << endl;
+    }
+
     return 0;
 }
 
 int vfs_read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
-    std::string real = vfs_backend_path(path);
+    string real = vfs_backend_path(path);
     int fd;
     
     if (fi && fi->fh) {
@@ -151,7 +183,7 @@ int vfs_read(const char *path, char *buf, size_t size, off_t offset, struct fuse
 }
 
 int vfs_write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
-    std::string real = vfs_backend_path(path);
+    string real = vfs_backend_path(path);
     int fd;
     
     if (fi && fi->fh) {
@@ -159,6 +191,19 @@ int vfs_write(const char *path, const char *buf, size_t size, off_t offset, stru
     } else {
         fd = open(real.c_str(), O_WRONLY);
         if (fd == -1) return -errno;
+    }
+    
+    // Before first write, create version if file has content AND we haven't already versioned it
+    auto it = open_files.find(real);
+    if (it != open_files.end() && !it->second.version_created && !it->second.has_been_written) {
+        struct stat st;
+        if (stat(real.c_str(), &st) == 0 && st.st_size > 0) {
+            cerr << "[VFS] Creating version before first write: " << path << endl;
+            VersionManager::create_version(real);
+            it->second.version_created = true;
+            cerr << "[VFS] ✓ Version created successfully!" << endl;
+        }
+        it->second.has_been_written = true;
     }
     
     ssize_t res = pwrite(fd, buf, size, offset);
@@ -171,13 +216,14 @@ int vfs_write(const char *path, const char *buf, size_t size, off_t offset, stru
 
 int vfs_truncate(const char *path, off_t size, struct fuse_file_info *fi) {
     (void) fi;
-    std::string real = vfs_backend_path(path);
+    string real = vfs_backend_path(path);
     
     // Create version before truncating if file has content
     struct stat st;
-    if (stat(real.c_str(), &st) == 0 && st.st_size > 0) {
-        std::cerr << "[VFS] Truncate called, creating version..." << std::endl;
+    if (stat(real.c_str(), &st) == 0 && st.st_size > 0 && size < st.st_size) {
+        cerr << "[VFS] Truncate detected, creating version: " << path << endl;
         VersionManager::create_version(real);
+        cerr << "[VFS] ✓ Version saved before truncation" << endl;
     }
     
     if (truncate(real.c_str(), size) == -1) return -errno;
@@ -187,12 +233,26 @@ int vfs_truncate(const char *path, off_t size, struct fuse_file_info *fi) {
 int vfs_flush(const char *path, struct fuse_file_info *fi) {
     (void) path;
     (void) fi;
-    // Flush is called when file is closed - just succeed
     return 0;
 }
 
 int vfs_release(const char *path, struct fuse_file_info *fi) {
-    (void) path;
+    string real = vfs_backend_path(path);
+    
+    // Check if file was modified but version wasn't created
+    auto it = open_files.find(real);
+    if (it != open_files.end()) {
+        if (it->second.has_been_written && !it->second.version_created) {
+            struct stat st;
+            if (stat(real.c_str(), &st) == 0 && st.st_size > 0) {
+                cerr << "[VFS] 💾 Creating version on close: " << path << endl;
+                VersionManager::create_version(real);
+                cerr << "[VFS] ✓ Final version saved!" << endl;
+            }
+        }
+        open_files.erase(it);
+    }
+    
     if (fi && fi->fh) {
         close(fi->fh);
     }
@@ -200,8 +260,8 @@ int vfs_release(const char *path, struct fuse_file_info *fi) {
 }
 
 int vfs_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
-    std::string real = vfs_backend_path(path);
-    std::string parent = real.substr(0, real.find_last_of('/'));
+    string real = vfs_backend_path(path);
+    string parent = real.substr(0, real.find_last_of('/'));
     struct stat s;
     if (stat(parent.c_str(), &s) == -1) mkdir(parent.c_str(), 0755);
     
@@ -210,18 +270,26 @@ int vfs_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
     
     fi->fh = fd;
     
-    std::cout << "[VFS] Created file: " << path << std::endl;
+    // Track this new file
+    OpenFileInfo info;
+    info.has_been_written = false;
+    info.version_created = false;
+    info.original_size = 0;
+    open_files[real] = info;
+    
+    cerr << "[VFS] New file created: " << path << endl;
     return 0;
 }
 
 int vfs_unlink(const char *path) {
-    std::string real = vfs_backend_path(path);
+    string real = vfs_backend_path(path);
     
     // Create final version before deletion
     struct stat st;
     if (stat(real.c_str(), &st) == 0 && st.st_size > 0) {
+        cerr << "[VFS] 🗑️ Creating final version before deletion: " << path << endl;
         VersionManager::create_version(real);
-        std::cout << "[VFS] Final version created before deletion: " << path << std::endl;
+        cerr << "[VFS] ✓ Final version preserved!" << endl;
     }
     
     if (unlink(real.c_str()) == -1) return -errno;
@@ -229,25 +297,26 @@ int vfs_unlink(const char *path) {
 }
 
 int vfs_mkdir(const char *path, mode_t mode) {
-    std::string real = vfs_backend_path(path);
+    string real = vfs_backend_path(path);
     if (mkdir(real.c_str(), mode) == -1) return -errno;
     return 0;
 }
 
 int vfs_rmdir(const char *path) {
-    std::string real = vfs_backend_path(path);
+    string real = vfs_backend_path(path);
     if (rmdir(real.c_str()) == -1) return -errno;
     return 0;
 }
 
 int vfs_rename(const char *from, const char *to, unsigned int flags) {
     (void) flags;
-    std::string real_from = vfs_backend_path(from);
-    std::string real_to = vfs_backend_path(to);
+    string real_from = vfs_backend_path(from);
+    string real_to = vfs_backend_path(to);
     
     // Create version of the source file before rename
     struct stat st;
     if (stat(real_from.c_str(), &st) == 0 && st.st_size > 0) {
+        cerr << "[VFS] Creating version before rename: " << from << " -> " << to << endl;
         VersionManager::create_version(real_from);
     }
     
