@@ -36,3 +36,7 @@ int vfs_rmdir(const char *path);
 int vfs_rename(const char *from, const char *to, unsigned int flags);
 
 int vfs_truncate(const char *path, off_t size, struct fuse_file_info *fi);
+
+int vfs_flush(const char *path, struct fuse_file_info *fi);
+
+int vfs_release(const char *path, struct fuse_file_info *fi);
